@@ -1,7 +1,7 @@
 
-PROGRAM = drawf
+PROGRAMS = drawf font image
 
-CSOURCES = drawf.c
+CSOURCES = drawf.c font.c image.c
 COBJECTS = $(CSOURCES:.c=.o)
 CFLAGS   = $(COPT) $(CDEF) $(CINC)
 COPT     = 
@@ -10,14 +10,22 @@ CINC     =
 
 LDFLAGS  = $(LDDIR) $(LDLIB)
 LDDIR    = 
-LDLIB    = -lGL -lglut
+LDLIB    = -lGL -lGLU -lglut
 
-STRLONG = 10
+STRLONG  = 10
 
-all: $(PROGRAM)
+all: $(PROGRAMS)
 
-$(PROGRAM): $(COBJECTS)
-	@printf " + LD %$(STRLONG)s <== %$(STRLONG)s\n" "$@" "..."
+drawf: drawf.o
+	@printf " + LD %$(STRLONG)s <== %$(STRLONG)s\n" "$@" "$^"
+	@$(CC) -o $@ $^ $(LDFLAGS)
+        
+font: font.o
+	@printf " + LD %$(STRLONG)s <== %$(STRLONG)s\n" "$@" "$^"
+	@$(CC) -o $@ $^ $(LDFLAGS)
+        
+image: image.o
+	@printf " + LD %$(STRLONG)s <== %$(STRLONG)s\n" "$@" "$^"
 	@$(CC) -o $@ $^ $(LDFLAGS)
         
 %.o: %.c
@@ -26,3 +34,11 @@ $(PROGRAM): $(COBJECTS)
 
 run: $(PROGRAM)
 	./$<
+
+clean: objclean execlean
+
+objclean:
+	$(RM) -f $(COBJECTS)
+
+execlean:
+	$(RM) -f $(PROGRAMS)
