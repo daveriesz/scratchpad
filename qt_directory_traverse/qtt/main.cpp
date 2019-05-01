@@ -32,7 +32,6 @@ void traverse(const QString &path, const QString &indent)
     QFileInfoList fil = qd.entryInfoList();
     for(ii=0 ; ii<fil.count() ; ii++)
     {
-      //printf("traverse for loop: %s -- %s\n", QSTXT(fil[ii].fileName()), QSTXT(fil[ii].filePath()));
       if((fil[ii].fileName() == ".") || (fil[ii].fileName() == "..")) { continue; }
       traverse(fil[ii].filePath(), QString(indent + "  "));
     }
